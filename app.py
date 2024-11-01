@@ -24,9 +24,9 @@ def main():
 
     # Display chat history
     for interaction in st.session_state.chat_history:
-        if interaction["inputs"]["question"]:
+        if interaction["inputs"]["chat_input"]:
             with st.chat_message("user"):
-                st.write(interaction["inputs"]["question"])
+                st.write(interaction["inputs"]["chat_input"])
         if interaction["outputs"]["answer"]:
             with st.chat_message("assistant"):
                 st.write(interaction["outputs"]["answer"])
@@ -38,7 +38,7 @@ def main():
         st.chat_message("user").markdown(user_input)
 
         # Query API
-        data = {"chat_history": st.session_state.chat_history, 'question': user_input}
+        data = {"chat_history": st.session_state.chat_history, 'chat_input': user_input}
         body = json.dumps(data).encode('utf-8')
         url = 'https://gyt-chat.eastus.inference.ml.azure.com/score'
         headers = {
@@ -57,7 +57,7 @@ def main():
 
             # Add user input and assistant response to chat history
             st.session_state.chat_history.append(
-                {"inputs": {"question": user_input},
+                {"inputs": {"chat_input": user_input},
                  "outputs": {"answer": response_data['chat_output']}}
             )
 
