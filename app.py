@@ -40,7 +40,7 @@ def main():
         # Query API
         data = {"chat_history": st.session_state.chat_history, 'question': user_input}
         body = json.dumps(data).encode('utf-8')
-        url = 'https://chat-assistant.eastus.inference.ml.azure.com/score'
+        url = 'https://gyt-chat.eastus.inference.ml.azure.com/score'
         headers = {
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {AZURE_ENDPOINT_KEY}'
