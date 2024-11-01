@@ -53,12 +53,12 @@ def main():
 
             # Render response
             with st.chat_message("assistant"):
-                st.markdown(response_data['answer'])
+                st.markdown(response_data)
 
             # Add user input and assistant response to chat history
             st.session_state.chat_history.append(
                 {"inputs": {"question": user_input},
-                 "outputs": {"answer": response_data['answer']}}
+                 "outputs": {"answer": response_data}}
             )
 
         except urllib.error.HTTPError as error:
