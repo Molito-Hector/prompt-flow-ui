@@ -43,8 +43,7 @@ def main():
         url = 'https://chat-assistant.eastus.inference.ml.azure.com/score'
         headers = {
             'Content-Type': 'application/json',
-            'Authorization': f'Bearer {AZURE_ENDPOINT_KEY}',
-            'azureml-model-deployment': 'shahml-hhrub-1'
+            'Authorization': f'Bearer {AZURE_ENDPOINT_KEY}'
         }
         req = urllib.request.Request(url, body, headers)
 
