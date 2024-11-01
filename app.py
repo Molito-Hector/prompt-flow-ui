@@ -27,9 +27,9 @@ def main():
         if interaction["inputs"]["chat_input"]:
             with st.chat_message("user"):
                 st.write(interaction["inputs"]["chat_input"])
-        if interaction["outputs"]["answer"]:
+        if interaction["outputs"]["chat_output"]:
             with st.chat_message("assistant"):
-                st.write(interaction["outputs"]["answer"])
+                st.write(interaction["outputs"]["chat_output"])
 
     # React to user input
     if user_input := st.chat_input("Ask me anything..."):
@@ -58,7 +58,7 @@ def main():
             # Add user input and assistant response to chat history
             st.session_state.chat_history.append(
                 {"inputs": {"chat_input": user_input},
-                 "outputs": {"answer": response_data['chat_output']}}
+                 "outputs": {"chat_output": response_data['chat_output']}}
             )
 
         except urllib.error.HTTPError as error:
