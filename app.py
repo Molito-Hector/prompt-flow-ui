@@ -3,20 +3,17 @@ import urllib.request
 import json
 import os
 import ssl
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
-AZURE_ENDPOINT_KEY = os.environ['AZURE_ENDPOINT_KEY']
+# Load environment variable from Streamlit's secrets
+AZURE_ENDPOINT_KEY = os.getenv('AZURE_ENDPOINT_KEY')
 
 def allowSelfSignedHttps(allowed):
-    # bypass the server certificate verification on the client side
+    # Bypass server certificate verification on the client side
     if allowed and not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None):
         ssl._create_default_https_context = ssl._create_unverified_context
 
 def main():
-    
-
+    # Allow self-signed HTTPS certificates
     allowSelfSignedHttps(True)
 
     st.title("Azure Prompt Flow Chat Interface")
@@ -39,10 +36,9 @@ def main():
 
         # Display user message in chat message container
         st.chat_message("user").markdown(user_input)
-        
 
         # Query API
-        data = {"chat_history": st.session_state.chat_history, 'question' : user_input}
+        data = {"chat_history": st.session_state.chat_history, 'question': user_input}
         body = json.dumps(data).encode('utf-8')
         url = 'https://chat-assistant.eastus.inference.ml.azure.com/score'
         headers = {
@@ -56,11 +52,11 @@ def main():
             response = urllib.request.urlopen(req)
             response_data = json.loads(response.read().decode('utf-8'))
 
-            # render
+            # Render response
             with st.chat_message("assistant"):
-                st.markdown(response_data['answer']) 
+                st.markdown(response_data['answer'])
 
-            # add user input to chat history
+            # Add user input and assistant response to chat history
             st.session_state.chat_history.append(
                 {"inputs": {"question": user_input},
                  "outputs": {"answer": response_data['answer']}}
