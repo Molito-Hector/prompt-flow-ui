@@ -6,6 +6,7 @@ import ssl
 
 # Load environment variable from Streamlit's secrets
 AZURE_ENDPOINT_KEY = os.getenv('AZURE_ENDPOINT_KEY')
+AZURE_ML_ENDPOINT = os.getenv('AZURE_ML_ENDPOINT')
 
 def allowSelfSignedHttps(allowed):
     # Bypass server certificate verification on the client side
@@ -16,7 +17,7 @@ def main():
     # Allow self-signed HTTPS certificates
     allowSelfSignedHttps(True)
 
-    st.title("Azure Prompt Flow Chat Interface")
+    st.title("Asistente Comercial")
 
     # Initialize chat history
     if "chat_history" not in st.session_state:
@@ -32,7 +33,7 @@ def main():
                 st.write(interaction["outputs"]["chat_output"])
 
     # React to user input
-    if user_input := st.chat_input("Ask me anything..."):
+    if user_input := st.chat_input("Haz una pregunta..."):
 
         # Display user message in chat message container
         st.chat_message("user").markdown(user_input)
@@ -40,7 +41,7 @@ def main():
         # Query API
         data = {"chat_history": st.session_state.chat_history, 'chat_input': user_input}
         body = json.dumps(data).encode('utf-8')
-        url = 'https://gyt-chat.eastus.inference.ml.azure.com/score'
+        url = f'{AZURE_ML_ENDPOINT}'
         headers = {
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {AZURE_ENDPOINT_KEY}'
